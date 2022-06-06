@@ -1,5 +1,6 @@
 package com.mj.pokemonapp.data.di
 
+import com.mj.pokemonapp.data.api.PokemonDetailApiService
 import com.mj.pokemonapp.data.api.PokemonSearchApiService
 import com.mj.pokemonapp.data.repository.remote.PokemonRemoteDataSource
 import com.mj.pokemonapp.data.repository.remote.PokemonRemoteDataSourceImpl
@@ -15,7 +16,10 @@ object RemoteDataModule {
 
     @Provides
     @Singleton
-    fun providePokemonSearchApiService(pokemonSearchApiService: PokemonSearchApiService): PokemonRemoteDataSource {
-        return PokemonRemoteDataSourceImpl(pokemonSearchApiService)
+    fun providePokemonSearchApiService(
+        pokemonSearchApiService: PokemonSearchApiService,
+        pokemonDetailApiService: PokemonDetailApiService
+    ): PokemonRemoteDataSource {
+        return PokemonRemoteDataSourceImpl(pokemonSearchApiService, pokemonDetailApiService)
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.GsonBuilder
 import com.mj.pokemonapp.BuildConfig
 import com.mj.pokemonapp.data.api.ApiClient
+import com.mj.pokemonapp.data.api.PokemonDetailApiService
 import com.mj.pokemonapp.data.api.PokemonSearchApiService
 import dagger.Module
 import dagger.Provides
@@ -28,18 +29,51 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun providePokemonSearchApiService(retrofit: Retrofit): PokemonSearchApiService =
+    fun providePokemonSearchApiService(
+        @PokemonSearchRetrofit retrofit: Retrofit
+    ): PokemonSearchApiService =
         retrofit.create(PokemonSearchApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun providePokemonDetailApiService(
+        @PokemonDetailRetrofit retrofit: Retrofit
+    ): PokemonDetailApiService =
+        retrofit.create(PokemonDetailApiService::class.java)
+
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class PokemonSearchRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class PokemonDetailRetrofit
 
 
     @Singleton
     @Provides
+    @PokemonSearchRetrofit
     fun providePokemonSearchRetrofit(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(ApiClient.POKEMON_SEARCH_BASE_URL)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    @PokemonDetailRetrofit
+    fun providePokemonDetailRetrofit(
+        okHttpClient: OkHttpClient,
+        gsonConverterFactory: GsonConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(ApiClient.POKEMON_API_BASE_URL)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()
@@ -56,7 +90,7 @@ object ApiModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(
-        @NetworkCacheInterceptor networkCacheInterceptor: Interceptor,
+        networkCacheInterceptor: Interceptor,
         @ApplicationContext appContext: Context
     ): OkHttpClient {
         val cacheSize = 10 * 1024 * 1024 // 10 MB
@@ -82,7 +116,6 @@ object ApiModule {
 
     @Singleton
     @Provides
-    @NetworkCacheInterceptor
     fun provideNetworkCacheInterceptor(): Interceptor {
         return Interceptor {
             val response = it.proceed(it.request())
@@ -97,12 +130,6 @@ object ApiModule {
         }
     }
 
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class AuthInterceptor
 
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class NetworkCacheInterceptor
 
 }
