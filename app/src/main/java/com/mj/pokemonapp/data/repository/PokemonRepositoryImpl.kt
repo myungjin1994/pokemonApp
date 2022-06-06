@@ -18,8 +18,14 @@ class PokemonRepositoryImpl @Inject constructor(
 
     override suspend fun getPokemonList(): Result<List<PokemonName>> = withContext(dispatcherProvider.io) {
         return@withContext try {
-            val result = pokemonRemoteDataSource.getPokemonList().body()?.pokemonNames ?: listOf()
-            Result.Success(mapperToPokemonName(result))
+            val result = pokemonRemoteDataSource.getPokemonList()
+
+            if (result.isSuccessful) {
+                Result.Success(mapperToPokemonName(result.body()?.pokemonNames ?: listOf()))
+            } else {
+                Result.Error(Exception(result.code().toString()))
+            }
+
         } catch (e: Exception) {
             Result.Error(e)
         }
@@ -27,8 +33,14 @@ class PokemonRepositoryImpl @Inject constructor(
 
     override suspend fun getPokemonLocations(): Result<List<PokemonLocation>> = withContext(dispatcherProvider.io) {
         return@withContext try {
-            val result = pokemonRemoteDataSource.getPokemonLocations().body()?.pokemonLocations ?: listOf()
-            Result.Success(mapperToPokemonLocation(result))
+            val result = pokemonRemoteDataSource.getPokemonLocations()
+
+            if (result.isSuccessful) {
+                Result.Success(mapperToPokemonLocation(result.body()?.pokemonLocations ?: listOf()))
+            } else {
+                Result.Error(Exception(result.code().toString()))
+            }
+
         } catch (e: Exception) {
             Result.Error(e)
         }

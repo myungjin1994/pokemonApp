@@ -1,10 +1,9 @@
-package com.mj.pokemonapp.presentation.home
+package com.mj.pokemonapp.presentation.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mj.pokemonapp.domain.model.PokemonName
 import com.mj.pokemonapp.domain.usecase.SearchPokemonUseCase
 import com.mj.pokemonapp.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,25 +12,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val searchPokemonUseCase: SearchPokemonUseCase
 ) : ViewModel() {
 
     private var searchPokemonJob: Job? = null
 
-    private val _pokemonSearchLiveData = MutableLiveData<List<PokemonName>>()
-    val pokemonSearchLiveData: LiveData<List<PokemonName>> = _pokemonSearchLiveData
+    private val _searchStateLiveData = MutableLiveData<SearchState>(SearchState.Uninitialized)
+    val searchStateLiveData: LiveData<SearchState> = _searchStateLiveData
 
 
     fun searchPokemon(searchString: String) {
         searchPokemonJob?.cancel()
         searchPokemonJob = viewModelScope.launch {
+            _searchStateLiveData.value = SearchState.LoadingRead
             when (val result = searchPokemonUseCase(searchString)) {
                 is Result.Success -> {
-                    _pokemonSearchLiveData.value = result.data ?: listOf()
+                    _searchStateLiveData.value = SearchState.SuccessReadPokemonList(result.data)
                 }
                 is Result.Error -> {
-
+                    _searchStateLiveData.value = SearchState.Error(result.exception.toString())
                 }
             }
         }

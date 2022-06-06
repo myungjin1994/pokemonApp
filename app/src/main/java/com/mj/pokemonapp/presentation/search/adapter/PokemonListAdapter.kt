@@ -1,4 +1,4 @@
-package com.mj.pokemonapp.presentation.home.adapter
+package com.mj.pokemonapp.presentation.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
