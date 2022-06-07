@@ -1,7 +1,7 @@
 package com.mj.pokemonapp.data.di
 
-import com.mj.pokemonapp.util.provider.DefaultDispatcherProvider
-import com.mj.pokemonapp.util.provider.DispatcherProvider
+import com.mj.pokemonapp.util.dispatcherprovider.DefaultDispatcherProvider
+import com.mj.pokemonapp.util.dispatcherprovider.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

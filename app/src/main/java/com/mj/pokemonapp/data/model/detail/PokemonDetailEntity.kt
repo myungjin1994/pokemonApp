@@ -32,7 +32,7 @@ data class PokemonDetailEntity(
         @SerializedName("front_shiny")
         val frontShiny: String?,
         @SerializedName("front_shiny_female")
-        val frontShinyFemale: String?,
+        val frontShinyFemale: String?
     )
 
 }

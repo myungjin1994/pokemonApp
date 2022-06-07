@@ -1,6 +1,5 @@
 package com.mj.pokemonapp.data.repository
 
-import com.mj.pokemonapp.data.mapper.mapperToPokemonDetail
 import com.mj.pokemonapp.data.mapper.mapperToPokemonLocation
 import com.mj.pokemonapp.data.mapper.mapperToPokemonName
 import com.mj.pokemonapp.data.mapper.toPokemonDetail
@@ -10,7 +9,7 @@ import com.mj.pokemonapp.domain.model.PokemonLocation
 import com.mj.pokemonapp.domain.model.PokemonName
 import com.mj.pokemonapp.domain.repository.PokemonRepository
 import com.mj.pokemonapp.util.Result
-import com.mj.pokemonapp.util.provider.DispatcherProvider
+import com.mj.pokemonapp.util.dispatcherprovider.DispatcherProvider
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -26,9 +25,8 @@ class PokemonRepositoryImpl @Inject constructor(
             if (result.isSuccessful) {
                 Result.Success(mapperToPokemonName(result.body()?.pokemonNames ?: listOf()))
             } else {
-                Result.Error(Exception(result.code().toString()))
+                Result.Error(Exception(result.errorBody()?.string()))
             }
-
         } catch (e: Exception) {
             Result.Error(e)
         }
@@ -41,9 +39,8 @@ class PokemonRepositoryImpl @Inject constructor(
             if (result.isSuccessful) {
                 Result.Success(mapperToPokemonLocation(result.body()?.pokemonLocations ?: listOf()))
             } else {
-                Result.Error(Exception(result.code().toString()))
+                Result.Error(Exception(result.errorBody()?.string()))
             }
-
         } catch (e: Exception) {
             Result.Error(e)
         }
@@ -56,9 +53,8 @@ class PokemonRepositoryImpl @Inject constructor(
             if (result.isSuccessful) {
                 Result.Success(result.body()!!.toPokemonDetail())
             } else {
-                Result.Error(Exception(result.code().toString()))
+                Result.Error(Exception(result.errorBody()?.string()))
             }
-
         } catch (e: Exception) {
             Result.Error(e)
         }

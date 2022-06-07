@@ -1,4 +1,4 @@
-package com.mj.pokemonapp.util.provider
+package com.mj.pokemonapp.util.dispatcherprovider
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

@@ -3,11 +3,9 @@ package com.mj.pokemonapp.presentation.detail
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.bumptech.glide.Glide
+import androidx.fragment.app.Fragment
 import com.mj.pokemonapp.R
 import com.mj.pokemonapp.databinding.ActivityDetailBinding
-import com.mj.pokemonapp.domain.model.PokemonDetail
-import com.mj.pokemonapp.domain.model.PokemonName
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,56 +18,37 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setBackButton()
         observeData()
-        getPokemonDetail()
     }
 
     private fun observeData() {
-        viewModel.detailStateLiveData.observe(this) {
+        viewModel.currentFragmentTag.observe(this) {
             when (it) {
-                is DetailState.SuccessReadPokemonDetail -> {
-                    setPokemonDetail(it.pokemonDetail)
-                }
-                is DetailState.SuccessReadPokemonLocations -> {
-                    if (it.pokemonLocationList.isNotEmpty()) {
-                        binding.buttonLocation.isEnabled = true
-                    }
-                }
+                DetailFragment.TAG -> showFragment(DetailFragment.newInstance(), DetailFragment.TAG)
+                LocationFragment.TAG -> showFragment(LocationFragment.newInstance(), LocationFragment.TAG)
+                else -> showFragment(DetailFragment.newInstance(), DetailFragment.TAG)
             }
         }
     }
 
-    private fun setBackButton() = with(binding) {
-        imageviewBack.setOnClickListener {
-            finish()
+    private fun showFragment(fragment: Fragment, tag: String) {
+
+        val findFragment = supportFragmentManager.findFragmentByTag(tag)
+
+        supportFragmentManager.fragments.forEach {
+            supportFragmentManager.beginTransaction()
+                .hide(it)
+                .commitAllowingStateLoss()
+        }
+
+        findFragment?.let {
+            supportFragmentManager.beginTransaction()
+                .show(it)
+                .commitAllowingStateLoss()
+        } ?: kotlin.run {
+            supportFragmentManager.beginTransaction().add(R.id.fragment_container_view, fragment, tag)
+                .commitAllowingStateLoss()
         }
     }
 
-    private fun getPokemonDetail() {
-        val pokemonName = intent.getParcelableExtra<PokemonName>(getString(R.string.pokemonName))
-        setPokemonName(pokemonName?.nameKorean, pokemonName?.nameEnglish)
-        pokemonName?.let {
-            viewModel.getPokemonDetail(it.id)
-            viewModel.getPokemonLocations(it.id)
-        }
-    }
-
-    private fun setPokemonName(nameKorean: String?, nameEnglish: String?) = with(binding) {
-        textviewPokemonNameKorean.text = nameKorean ?: ""
-        textviewPokemonNameEnglish.text = nameEnglish ?: ""
-    }
-
-    private fun setPokemonDetail(pokemonDetail: PokemonDetail) = with(binding) {
-
-        Glide.with(this@DetailActivity)
-            .load(pokemonDetail.image)
-            .placeholder(R.drawable.image_pokeball)
-            .error(R.drawable.image_pokeball)
-            .into(imageviewPokemon)
-
-        textviewPokemonHeight.text = pokemonDetail.height.toString()
-        textviewPokemonWeight.text = pokemonDetail.weight.toString()
-    }
 }

@@ -3,7 +3,7 @@ package com.mj.pokemonapp.data.di
 import com.mj.pokemonapp.data.repository.PokemonRepositoryImpl
 import com.mj.pokemonapp.data.repository.remote.PokemonRemoteDataSource
 import com.mj.pokemonapp.domain.repository.PokemonRepository
-import com.mj.pokemonapp.util.provider.DispatcherProvider
+import com.mj.pokemonapp.util.dispatcherprovider.DispatcherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
