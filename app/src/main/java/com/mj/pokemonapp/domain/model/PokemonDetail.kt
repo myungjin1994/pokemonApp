@@ -1,5 +1,6 @@
 package com.mj.pokemonapp.domain.model
 
+
 data class PokemonDetail(
     val id: Int,
     val height: Int,

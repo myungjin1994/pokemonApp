@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import com.mj.pokemonapp.R
 import com.mj.pokemonapp.databinding.ActivitySearchBinding
 import com.mj.pokemonapp.presentation.search.adapter.PokemonListAdapter
 import com.mj.pokemonapp.presentation.detail.DetailActivity
@@ -68,7 +69,9 @@ class SearchActivity : AppCompatActivity() {
 
     private fun getPokemonListAdapter(): PokemonListAdapter = with(binding) {
         return@with PokemonListAdapter {
-            startActivity(Intent(this@SearchActivity, DetailActivity::class.java))
+            val intent = Intent(this@SearchActivity, DetailActivity::class.java)
+            intent.putExtra(getString(R.string.pokemonName), it)
+            startActivity(intent)
         }
     }
 

@@ -42,6 +42,7 @@ fun mapperToPokemonDetail(pokemonDetailEntities: List<PokemonDetailEntity>): Lis
 
 fun PokemonDetailEntity.toPokemonDetail(): PokemonDetail {
     var pokemonImage: String? = null
+
     if (sprites?.frontDefault != null) {
         pokemonImage = sprites.frontDefault
     } else if (sprites?.backDefault != null) {

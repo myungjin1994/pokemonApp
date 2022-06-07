@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.422" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.4484375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.4348958333333333" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.5676923076923077" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.5911458333333334" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.42083333333333334" />
         <entry key="app/src/main/res/layout/viewholder_pokemon_name.xml" value="0.43385416666666665" />
