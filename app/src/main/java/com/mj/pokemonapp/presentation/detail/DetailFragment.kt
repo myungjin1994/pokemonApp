@@ -45,6 +45,7 @@ class DetailFragment : Fragment() {
         }
 
         viewModel.pokemonLocationsLiveData.observe(viewLifecycleOwner) {
+            // 해당 포켓몬의 서식시 여부에 따른 버튼 활성화
             if (it.isNotEmpty()) {
                 binding.buttonLocation.isEnabled = true
             }
@@ -85,9 +86,13 @@ class DetailFragment : Fragment() {
             .error(R.drawable.image_pokeball)
             .into(imageviewPokemon)
 
-        textviewPokemonHeight.text = pokemonDetail.height.toString()
-        textviewPokemonWeight.text = pokemonDetail.weight.toString()
+        textviewPokemonHeight.text = getString(R.string.height_value, pokemonDetail.height.toString())
+        textviewPokemonWeight.text = getString(R.string.weight_value, pokemonDetail.weight.toString())
 
+        setPokemonLocationButton()
+    }
+
+    private fun setPokemonLocationButton() = with(binding) {
         buttonLocation.setOnClickListener {
             viewModel.setCurrentFragment(LocationFragment.TAG)
         }

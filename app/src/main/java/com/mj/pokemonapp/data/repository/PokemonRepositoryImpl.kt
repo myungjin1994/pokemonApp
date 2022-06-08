@@ -25,7 +25,7 @@ class PokemonRepositoryImpl @Inject constructor(
             if (result.isSuccessful) {
                 Result.Success(mapperToPokemonName(result.body()?.pokemonNames ?: listOf()))
             } else {
-                Result.Error(Exception(result.errorBody()?.string()))
+                Result.Error(Exception(result.message()))
             }
         } catch (e: Exception) {
             Result.Error(e)
@@ -39,7 +39,7 @@ class PokemonRepositoryImpl @Inject constructor(
             if (result.isSuccessful) {
                 Result.Success(mapperToPokemonLocation(result.body()?.pokemonLocations ?: listOf()))
             } else {
-                Result.Error(Exception(result.errorBody()?.string()))
+                Result.Error(Exception(result.message()))
             }
         } catch (e: Exception) {
             Result.Error(e)
@@ -53,7 +53,7 @@ class PokemonRepositoryImpl @Inject constructor(
             if (result.isSuccessful) {
                 Result.Success(result.body()!!.toPokemonDetail())
             } else {
-                Result.Error(Exception(result.errorBody()?.string()))
+                Result.Error(Exception(result.message()))
             }
         } catch (e: Exception) {
             Result.Error(e)

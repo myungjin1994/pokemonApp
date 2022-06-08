@@ -38,10 +38,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setBackButton()
-
-        val mapFragment = childFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        setGoogleMap()
     }
 
 
@@ -53,6 +50,12 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun setGoogleMap() {
+        val mapFragment = childFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
 
     private fun setBackButton() = with(binding) {
         imageviewBack.setOnClickListener {
@@ -61,8 +64,11 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setPokemonLocationsAndMoveCamera(pokemonLocations: List<PokemonLocation>, googleMap: GoogleMap) {
+
+        // 카메로 이동을 위해 마커들의 bound 설정
         val bounds = LatLngBounds.builder()
 
+        // 구글 지도에 해당 포켓몬 서식지 위치 마커 표시
         pokemonLocations.forEach { pokemonLocation ->
             val pokemonLocationLatLng = LatLng(pokemonLocation.lat, pokemonLocation.lng)
             googleMap.addMarker(
@@ -73,6 +79,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
             bounds.include(pokemonLocationLatLng)
 
         }
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 200))
     }
 
@@ -80,6 +87,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         super.onAttach(context)
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true) {
+                // 해당 fragment에서 뒤로가기 버튼 클릭시 detailFragment로 이동
                 override fun handleOnBackPressed() {
                     viewModel.setCurrentFragment(DetailFragment.TAG)
                 }
@@ -100,5 +108,4 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
         observeData()
     }
-
 }

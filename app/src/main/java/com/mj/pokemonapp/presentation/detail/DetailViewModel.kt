@@ -36,6 +36,7 @@ class DetailViewModel @Inject constructor(
     private val _errorFlow = MutableSharedFlow<String>()
     val errorFlow = _errorFlow.asSharedFlow()
 
+    // 현재 fragment 파악
     fun setCurrentFragment(tag: String) {
         _currentFragmentTag.value = tag
     }
@@ -57,7 +58,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = getPokemonLocationsUseCase(id)) {
                 is Result.Success -> {
-                    _pokemonLocationsLiveData.value = result.data ?: listOf()
+                    _pokemonLocationsLiveData.value = result.data!!
                 }
                 is Result.Error -> {
                     _errorFlow.emit(resourcesProvider.getString(R.string.error_retrieving_pokemon_location))

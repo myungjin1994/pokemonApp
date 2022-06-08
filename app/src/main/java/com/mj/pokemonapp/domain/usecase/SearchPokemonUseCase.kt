@@ -14,10 +14,13 @@ class SearchPokemonUseCase @Inject constructor(
         val result = pokemonRepository.getPokemonList()
 
         return if (result.succeeded) {
+
+            // 검색어가 포함된 포켓몬 리스트 필터
             val searchResult = result.getValue().filter {
                 it.nameKorean.contains(searchString) || it.nameEnglish.contains(searchString, ignoreCase = true)
             }
 
+            // 검색한 언어를 해당 포켓몬의 주이름(검색이름)으로 설정
             searchResult.forEach {
                 if (it.nameKorean.contains(searchString)) {
                     it.searchName = it.nameKorean
@@ -25,7 +28,6 @@ class SearchPokemonUseCase @Inject constructor(
                     it.searchName = it.nameEnglish
                 }
             }
-
             Result.Success(searchResult)
         } else {
             result

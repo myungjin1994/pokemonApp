@@ -37,9 +37,11 @@ class SearchViewModel @Inject constructor(
 
     fun searchPokemon(searchString: String) {
 
+        //직전 검색어와 동일한지 체크, 동일하면 검색기능 수행X
         if (prevSearchString == searchString) return
         prevSearchString = searchString
 
+        // 기존에 검색이 진행중이면 해당 검색 cancel 후 검색
         searchPokemonJob?.cancel()
         searchPokemonJob = viewModelScope.launch {
             _loadingLiveData.value = true

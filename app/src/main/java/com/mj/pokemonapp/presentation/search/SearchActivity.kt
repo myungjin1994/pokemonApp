@@ -61,28 +61,24 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setSearchEditText() = with(binding) {
         edittextSearch.doOnTextChanged { text, _, _, _ ->
-            if (text != null) {
-                if (text.isNotEmpty()) {
-                    viewModel.searchPokemon(text.toString().trim())
-                } else { // 입력창이 배워 있을때
-                }
+            if (text != null && text.isNotEmpty()) {
+                viewModel.searchPokemon(text.toString().trim())
             }
         }
     }
 
     private fun getPokemonListAdapter(): PokemonListAdapter = with(binding) {
         return@with PokemonListAdapter {
+            hideKeyboard(binding.edittextSearch)
+
             val intent = Intent(this@SearchActivity, DetailActivity::class.java)
             intent.putExtra(getString(R.string.pokemonName), it)
-            hideKeyboard(binding.edittextSearch)
             startActivity(intent)
         }
     }
 
     private fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(view, 0)
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
-
 }

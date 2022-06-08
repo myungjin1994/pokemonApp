@@ -34,31 +34,18 @@ fun PokemonLocationEntity.toPokemonLocation() = PokemonLocation(
 )
 
 //PokemonDetailEntity -> PokemonDetail
-fun mapperToPokemonDetail(pokemonDetailEntities: List<PokemonDetailEntity>): List<PokemonDetail> {
-    return pokemonDetailEntities.toList().map {
-        it.toPokemonDetail()
-    }
-}
-
 fun PokemonDetailEntity.toPokemonDetail(): PokemonDetail {
     var pokemonImage: String? = null
 
-    if (sprites?.frontDefault != null) {
-        pokemonImage = sprites.frontDefault
-    } else if (sprites?.backDefault != null) {
-        pokemonImage = sprites.backDefault
-    } else if (sprites?.backFemale != null) {
-        pokemonImage = sprites.backFemale
-    } else if (sprites?.backShiny != null) {
-        pokemonImage = sprites.backShiny
-    } else if (sprites?.backShinyFemale != null) {
-        pokemonImage = sprites.backShinyFemale
-    } else if (sprites?.frontFemale != null) {
-        pokemonImage = sprites.frontFemale
-    } else if (sprites?.frontShiny != null) {
-        pokemonImage = sprites.frontShiny
-    } else if (sprites?.frontShinyFemale != null) {
-        pokemonImage = sprites.frontShinyFemale
+    when {
+        sprites?.frontDefault != null -> pokemonImage = sprites.frontDefault
+        sprites?.backDefault != null -> pokemonImage = sprites.backDefault
+        sprites?.backFemale != null -> pokemonImage = sprites.backFemale
+        sprites?.backShiny != null -> pokemonImage = sprites.backShiny
+        sprites?.backShinyFemale != null -> pokemonImage = sprites.backShinyFemale
+        sprites?.frontFemale != null -> pokemonImage = sprites.frontFemale
+        sprites?.frontShiny != null -> pokemonImage = sprites.frontShiny
+        sprites?.frontShinyFemale != null -> pokemonImage = sprites.frontShinyFemale
     }
 
     return PokemonDetail(
