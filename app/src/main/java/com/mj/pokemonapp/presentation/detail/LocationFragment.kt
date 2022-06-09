@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.mj.pokemonapp.R
 import com.mj.pokemonapp.databinding.FragmentLocationBinding
 import com.mj.pokemonapp.domain.model.PokemonLocation
+import com.mj.pokemonapp.util.EspressoIdlingResource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,6 +52,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setGoogleMap() {
+        EspressoIdlingResource.increment()
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -105,6 +107,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        EspressoIdlingResource.decrement()
         mMap = googleMap
         observeData()
     }

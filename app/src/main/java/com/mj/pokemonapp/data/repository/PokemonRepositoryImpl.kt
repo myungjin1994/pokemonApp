@@ -8,6 +8,7 @@ import com.mj.pokemonapp.domain.model.PokemonDetail
 import com.mj.pokemonapp.domain.model.PokemonLocation
 import com.mj.pokemonapp.domain.model.PokemonName
 import com.mj.pokemonapp.domain.repository.PokemonRepository
+import com.mj.pokemonapp.util.EspressoIdlingResource
 import com.mj.pokemonapp.util.Result
 import com.mj.pokemonapp.util.dispatcherprovider.DispatcherProvider
 import kotlinx.coroutines.withContext
@@ -20,7 +21,9 @@ class PokemonRepositoryImpl @Inject constructor(
 
     override suspend fun getPokemonList(): Result<List<PokemonName>> = withContext(dispatcherProvider.io) {
         return@withContext try {
+            EspressoIdlingResource.increment()
             val result = pokemonRemoteDataSource.getPokemonList()
+            EspressoIdlingResource.decrement()
 
             if (result.isSuccessful) {
                 Result.Success(mapperToPokemonName(result.body()?.pokemonNames ?: listOf()))
@@ -34,7 +37,9 @@ class PokemonRepositoryImpl @Inject constructor(
 
     override suspend fun getPokemonLocations(): Result<List<PokemonLocation>> = withContext(dispatcherProvider.io) {
         return@withContext try {
+            EspressoIdlingResource.increment()
             val result = pokemonRemoteDataSource.getPokemonLocations()
+            EspressoIdlingResource.decrement()
 
             if (result.isSuccessful) {
                 Result.Success(mapperToPokemonLocation(result.body()?.pokemonLocations ?: listOf()))
@@ -48,7 +53,9 @@ class PokemonRepositoryImpl @Inject constructor(
 
     override suspend fun getPokemonDetail(id: String): Result<PokemonDetail> = withContext(dispatcherProvider.io) {
         return@withContext try {
+            EspressoIdlingResource.increment()
             val result = pokemonRemoteDataSource.getPokemonDetail(id)
+            EspressoIdlingResource.decrement()
 
             if (result.isSuccessful) {
                 Result.Success(result.body()!!.toPokemonDetail())
