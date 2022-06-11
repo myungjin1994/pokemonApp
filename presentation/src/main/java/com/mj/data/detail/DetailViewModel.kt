@@ -27,6 +27,9 @@ class DetailViewModel @Inject constructor(
     private val _currentFragmentTag = MutableLiveData<String>(null)
     val currentFragmentTag: LiveData<String> = _currentFragmentTag
 
+    private val _pokemonDetailLoadingLiveData = MutableLiveData<Boolean>()
+    val pokemonDetailLoadingLiveData: LiveData<Boolean> = _pokemonDetailLoadingLiveData
+
     private val _pokemonDetailLiveData = MutableLiveData<PokemonDetail>()
     val pokemonDetailLiveData: LiveData<PokemonDetail> = _pokemonDetailLiveData
 
@@ -42,13 +45,16 @@ class DetailViewModel @Inject constructor(
     }
 
     fun getPokemonDetail(id: Int) {
+        _pokemonDetailLoadingLiveData.value = true
         viewModelScope.launch {
             when (val result = getPokemonDetailUseCase(id)) {
                 is ResultOf.Success -> {
                     _pokemonDetailLiveData.value = result.data!!
+                    _pokemonDetailLoadingLiveData.value = false
                 }
                 is ResultOf.Error -> {
                     _errorFlow.emit(resourcesProvider.getString(R.string.error_retrieving_pokemon_detail))
+                    _pokemonDetailLoadingLiveData.value = false
                 }
             }
         }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PokemonLocationButton">
+        <attr name="cardColor" format="reference|color" />
+        <attr name="text" format="reference|string" />
+        <attr name="loading" format="boolean" />
+        <attr name="locationExist" format="boolean" />
+    </declare-styleable>
+
+</resources>

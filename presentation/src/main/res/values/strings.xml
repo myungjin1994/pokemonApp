@@ -13,6 +13,7 @@
     <string name="weight">몸무게 : </string>
     <string name="weight_value">%s hg</string>
     <string name="location">서식지</string>
+    <string name="location_none">서식지 없음</string>
 
     <string name="error_retrieving_pokemon_list">포켓몬 검색 결과를 불러오는데 오류가 발생했습니다</string>
     <string name="error_retrieving_pokemon_detail">포켓몬 상세 정보를 불러오는데 오류가 발생했습니다</string>

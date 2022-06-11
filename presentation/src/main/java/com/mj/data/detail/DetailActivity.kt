@@ -23,7 +23,6 @@ class DetailActivity : AppCompatActivity() {
 
     private fun observeData() {
 
-        // 화면 회전시 현재 fragment를 파악해 다시 보여준다
         viewModel.currentFragmentTag.observe(this) {
             when (it) {
                 DetailFragment.TAG -> showFragment(DetailFragment.newInstance(), DetailFragment.TAG)
@@ -33,8 +32,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    // fragment를 불러올때 생성되어 있는 fragment면 기존의 fragment를 보여준다.
-    // 첫 생성이면 fragment를 생성하여 보여준다.
+
     private fun showFragment(fragment: Fragment, tag: String) {
 
         val findFragment = supportFragmentManager.findFragmentByTag(tag)

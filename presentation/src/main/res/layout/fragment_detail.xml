@@ -45,28 +45,44 @@
 
             <TextView
                 android:id="@+id/textview_pokemon_name_korean"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageview_back"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/imageview_back"
                 app:layout_constraintTop_toTopOf="@+id/imageview_back"
                 tools:text="포켓몬 이름" />
 
             <TextView
                 android:id="@+id/textview_pokemon_name_english"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/textview_pokemon_name_korean"
                 app:layout_constraintTop_toBottomOf="@id/textview_pokemon_name_korean"
                 tools:text="pokemon name" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_detail"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorSize="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/textview_pokemon_name_korean"
+                app:layout_constraintStart_toEndOf="@id/textview_pokemon_name_korean"
+                app:layout_constraintTop_toTopOf="@id/textview_pokemon_name_korean"
+                app:trackCornerRadius="10dp" />
 
             <ImageView
                 android:id="@+id/imageview_pokemon"
@@ -85,7 +101,7 @@
                 android:id="@+id/textview_pokemon_height_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/height"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -109,17 +125,14 @@
                 tools:text="10" />
 
 
-            <Button
+            <com.mj.data.detail.customview.PokemonLocationButton
                 android:id="@+id/button_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:text="@string/location"
-                android:textStyle="bold"
+                app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/textview_pokemon_height_title"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintTop_toTopOf="@+id/textview_pokemon_height_title" />
-
 
             <TextView
                 android:id="@+id/textview_pokemon_weight_title"

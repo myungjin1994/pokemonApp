@@ -11,6 +11,7 @@ import com.mj.domain.model.PokemonLocation
 import com.mj.domain.model.PokemonName
 import com.mj.domain.repository.PokemonRepository
 import com.mj.domain.utils.ResultOf
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -39,6 +40,7 @@ class PokemonRepositoryImpl @Inject constructor(
         return@withContext try {
             EspressoIdlingResource.increment()
             val result = pokemonRemoteDataSource.getPokemonLocations()
+            delay(2000)
             EspressoIdlingResource.decrement()
 
             if (result.isSuccessful) {
@@ -56,6 +58,7 @@ class PokemonRepositoryImpl @Inject constructor(
         return@withContext try {
             EspressoIdlingResource.increment()
             val result = pokemonRemoteDataSource.getPokemonDetail(id)
+            delay(2000)
             EspressoIdlingResource.decrement()
 
             if (result.isSuccessful) {
