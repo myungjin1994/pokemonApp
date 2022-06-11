@@ -36,7 +36,10 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setBackButton()
         observeData()
-        getPokemonDetail()
+
+        val pokemonName = requireActivity().intent.getParcelableExtra<PokemonName>(getString(R.string.pokemonName))
+        setPokemonName(pokemonName?.nameKorean, pokemonName?.nameEnglish)
+        getPokemonDetail(pokemonName?.id ?: 0)
     }
 
 
@@ -67,13 +70,9 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun getPokemonDetail() {
-        val pokemonName = requireActivity().intent.getParcelableExtra<PokemonName>(getString(R.string.pokemonName))
-        setPokemonName(pokemonName?.nameKorean, pokemonName?.nameEnglish)
-        pokemonName?.let {
-            viewModel.getPokemonDetail(it.id)
-            viewModel.getPokemonLocations(it.id)
-        }
+    private fun getPokemonDetail(id: Int) {
+        viewModel.getPokemonDetail(id)
+        viewModel.getPokemonLocations(id)
     }
 
     private fun setPokemonName(nameKorean: String?, nameEnglish: String?) = with(binding) {
