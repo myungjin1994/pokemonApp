@@ -32,9 +32,14 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-
     private fun showFragment(fragment: Fragment, tag: String) {
         val findFragment = supportFragmentManager.findFragmentByTag(tag)
+
+        if(tag == DetailFragment.TAG) {
+            supportFragmentManager.findFragmentByTag(LocationFragment.TAG)?.let {
+                supportFragmentManager.beginTransaction().remove(it).commitAllowingStateLoss()
+            }
+        }
 
         supportFragmentManager.fragments.forEach {
             supportFragmentManager.beginTransaction()
