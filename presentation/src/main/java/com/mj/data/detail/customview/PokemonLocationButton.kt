@@ -43,6 +43,5 @@ class PokemonLocationButton @JvmOverloads constructor(
                 imageviewArrow.isVisible = false
             }
         }
-
     }
 }

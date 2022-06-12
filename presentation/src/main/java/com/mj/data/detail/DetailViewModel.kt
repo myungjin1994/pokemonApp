@@ -39,7 +39,7 @@ class DetailViewModel @Inject constructor(
     private val _errorFlow = MutableSharedFlow<String>()
     val errorFlow = _errorFlow.asSharedFlow()
 
-    // 현재 fragment 파악
+
     fun setCurrentFragment(tag: String) {
         _currentFragmentTag.value = tag
     }

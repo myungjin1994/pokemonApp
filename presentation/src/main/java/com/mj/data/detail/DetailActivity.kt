@@ -34,7 +34,6 @@ class DetailActivity : AppCompatActivity() {
 
 
     private fun showFragment(fragment: Fragment, tag: String) {
-
         val findFragment = supportFragmentManager.findFragmentByTag(tag)
 
         supportFragmentManager.fragments.forEach {
@@ -52,5 +51,4 @@ class DetailActivity : AppCompatActivity() {
                 .commitAllowingStateLoss()
         }
     }
-
 }

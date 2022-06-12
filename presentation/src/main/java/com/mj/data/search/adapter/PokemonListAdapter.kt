@@ -41,7 +41,6 @@ class PokemonListAdapter(
     }
 
     companion object {
-
         private val diffCallback = object : DiffUtil.ItemCallback<PokemonName>() {
 
             override fun areItemsTheSame(oldItem: PokemonName, newItem: PokemonName): Boolean {

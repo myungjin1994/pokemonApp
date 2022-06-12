@@ -82,7 +82,6 @@ class DetailFragment : Fragment() {
 
     private fun setPokemonDetail(pokemonDetail: PokemonDetail) = with(binding) {
 
-
         Glide.with(requireContext())
             .load(pokemonDetail.image)
             .placeholder(R.drawable.image_pokeball)
@@ -109,6 +108,4 @@ class DetailFragment : Fragment() {
         const val TAG = "DetailFragment"
         fun newInstance() = DetailFragment()
     }
-
-
 }

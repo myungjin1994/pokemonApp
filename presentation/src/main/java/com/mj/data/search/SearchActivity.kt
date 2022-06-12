@@ -37,9 +37,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun initView() = with(binding) {
-        pokemonListAdapter = getPokemonListAdapter()
-        recyclerviewPokemonInfo.adapter = pokemonListAdapter
         setSearchEditText()
+        setPokemonListAdapter()
+        recyclerviewPokemonInfo.adapter = pokemonListAdapter
     }
 
     private fun observeData() {
@@ -58,7 +58,6 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-
     private fun setSearchEditText() = with(binding) {
         edittextSearch.doOnTextChanged { text, _, _, _ ->
             if (text != null && text.isNotEmpty()) {
@@ -67,10 +66,9 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun getPokemonListAdapter(): PokemonListAdapter = with(binding) {
-        return@with PokemonListAdapter {
-            hideKeyboard(binding.edittextSearch)
-
+    private fun setPokemonListAdapter() = with(binding) {
+        pokemonListAdapter = PokemonListAdapter {
+            hideKeyboard(edittextSearch)
             val intent = Intent(this@SearchActivity, DetailActivity::class.java)
             intent.putExtra(getString(R.string.pokemonName), it)
             startActivity(intent)
