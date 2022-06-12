@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.mj.pokemonapp.R
 import com.mj.pokemonapp.databinding.FragmentDetailBinding
 import com.mj.domain.model.PokemonDetail
+import com.mj.domain.model.PokemonLocation
 import com.mj.domain.model.PokemonName
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -34,21 +36,25 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setBackButton()
         observeData()
-        getPokemonDetail()
+
+        val pokemonName = requireActivity().intent.getParcelableExtra<PokemonName>(getString(R.string.pokemonName))
+        setPokemonName(pokemonName?.nameKorean, pokemonName?.nameEnglish)
+        getPokemonDetail(pokemonName?.id ?: 0)
     }
 
 
     private fun observeData() {
+
+        viewModel.pokemonDetailLoadingLiveData.observe(viewLifecycleOwner) {
+            binding.progressDetail.isVisible = it
+        }
 
         viewModel.pokemonDetailLiveData.observe(viewLifecycleOwner) {
             setPokemonDetail(it)
         }
 
         viewModel.pokemonLocationsLiveData.observe(viewLifecycleOwner) {
-            // 해당 포켓몬의 서식시 여부에 따른 버튼 활성화
-            if (it.isNotEmpty()) {
-                binding.buttonLocation.isEnabled = true
-            }
+            setPokemonLocationButton(it)
         }
 
         lifecycleScope.launchWhenStarted {
@@ -64,13 +70,9 @@ class DetailFragment : Fragment() {
         }
     }
 
-    private fun getPokemonDetail() {
-        val pokemonName = requireActivity().intent.getParcelableExtra<PokemonName>(getString(R.string.pokemonName))
-        setPokemonName(pokemonName?.nameKorean, pokemonName?.nameEnglish)
-        pokemonName?.let {
-            viewModel.getPokemonDetail(it.id)
-            viewModel.getPokemonLocations(it.id)
-        }
+    private fun getPokemonDetail(id: Int) {
+        viewModel.getPokemonDetail(id)
+        viewModel.getPokemonLocations(id)
     }
 
     private fun setPokemonName(nameKorean: String?, nameEnglish: String?) = with(binding) {
@@ -89,12 +91,16 @@ class DetailFragment : Fragment() {
         textviewPokemonHeight.text = getString(R.string.height_value, pokemonDetail.height.toString())
         textviewPokemonWeight.text = getString(R.string.weight_value, pokemonDetail.weight.toString())
 
-        setPokemonLocationButton()
     }
 
-    private fun setPokemonLocationButton() = with(binding) {
-        buttonLocation.setOnClickListener {
-            viewModel.setCurrentFragment(LocationFragment.TAG)
+    private fun setPokemonLocationButton(pokemonLocationList: List<PokemonLocation>) = with(binding) {
+        if (pokemonLocationList.isNotEmpty()) {
+            buttonLocation.locationExists(true)
+            buttonLocation.setOnClickListener {
+                viewModel.setCurrentFragment(LocationFragment.TAG)
+            }
+        } else {
+            buttonLocation.locationExists(false)
         }
     }
 
@@ -102,6 +108,4 @@ class DetailFragment : Fragment() {
         const val TAG = "DetailFragment"
         fun newInstance() = DetailFragment()
     }
-
-
 }

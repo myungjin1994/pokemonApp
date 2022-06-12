@@ -15,7 +15,7 @@ class GetPokemonLocationsUseCase @Inject constructor(
 
         return if (result.succeeded) {
 
-            //일치하는 id의 서식지 리스트 필터
+            //일치하는 id의 서식지들 저장
             val searchResult = result.getValue().filter {
                 it.id == id
             }

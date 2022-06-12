@@ -16,7 +16,7 @@ class SearchPokemonUseCase @Inject constructor(
 
         return if (result.succeeded) {
 
-            // 검색어가 포함된 포켓몬 리스트 필터
+            // 검색어가 포함된 포켓몬 리스트 저장
             val searchResult = result.getValue().filter {
                 it.nameKorean.contains(searchString) || it.nameEnglish.contains(searchString, ignoreCase = true)
             }

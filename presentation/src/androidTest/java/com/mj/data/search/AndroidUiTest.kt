@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.platform.app.InstrumentationRegistry
+import com.google.android.gms.maps.model.LatLng
 import com.mj.pokemonapp.R
 import com.mj.domain.model.PokemonDetail
 import com.mj.domain.model.PokemonName
@@ -45,16 +46,20 @@ class AndroidUiTest {
     fun insertSearchQueryAndClickItemTest() {
         onView(withId(R.id.edittext_search)).perform(typeText("pi"))
 
+        // recyclerview 갱신하는동안 클릭하지 않도록 대기
         Thread.sleep(1000)
 
         onView(withId(R.id.recyclerview_pokemon_info))
             .perform(RecyclerViewActions.actionOnItemAtPosition<PokemonListAdapter.PokemonViewHolder>(3, click()))
+
+        onView(withId(R.id.textview_pokemon_name_korean)).check(matches(withText("피죤투")))
     }
 
     @Test
     fun checkPokemonDetailTest() {
         onView(withId(R.id.edittext_search)).perform(typeText("bulbasaur"))
 
+        // recyclerview 갱신하는동안 클릭하지 않도록 대기
         Thread.sleep(1000)
 
         onView(withId(R.id.recyclerview_pokemon_info))
@@ -77,6 +82,7 @@ class AndroidUiTest {
     fun checkPokemonLocationMapTest() {
         onView(withId(R.id.edittext_search)).perform(typeText("meowth"))
 
+        // recyclerview 갱신하는동안 클릭하지 않도록 대기
         Thread.sleep(1000)
 
         onView(withId(R.id.recyclerview_pokemon_info))
@@ -86,7 +92,7 @@ class AndroidUiTest {
             .perform(click())
 
         val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-        val marker = mDevice.findObject(UiSelector().descriptionContains("lat/lng: (37.40125,127.11066)"))
+        val marker = mDevice.findObject(UiSelector().descriptionContains(LatLng(37.40125,127.11066).toString()))
         marker.click()
     }
 

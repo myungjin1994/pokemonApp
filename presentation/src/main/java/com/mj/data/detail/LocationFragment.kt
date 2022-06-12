@@ -52,6 +52,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setGoogleMap() {
+        // ui test에서 GoogleMap 출력 대기 신호보내기
         EspressoIdlingResource.increment()
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -107,7 +108,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        // ui test에서 GoogleMap 출력 완료 신호보내기
         EspressoIdlingResource.decrement()
+
         mMap = googleMap
         observeData()
     }

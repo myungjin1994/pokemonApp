@@ -49,11 +49,11 @@ class DetailViewModelTest {
 
     @Test
     fun getPokemonDetailSuccessTest() = mainCoroutineRule.runBlockingTest {
-        Mockito.`when`(pokemonRepository.getPokemonDetail("1")).thenReturn(
-            ResultOf.Success(PokemonDetail(1, 7, "Bulbasaur", "image_url_1", 69))
-        )
-
         val expectedAnswer = PokemonDetail(1, 7, "Bulbasaur", "image_url_1", 69)
+
+        Mockito.`when`(pokemonRepository.getPokemonDetail("1")).thenReturn(
+            ResultOf.Success(expectedAnswer)
+        )
 
         viewModel.getPokemonDetail(1)
 
@@ -62,15 +62,17 @@ class DetailViewModelTest {
 
     @Test
     fun getPokemonDetailFailTest() = mainCoroutineRule.runBlockingTest {
+        val expectedAnswer = "error"
+
         Mockito.`when`(pokemonRepository.getPokemonDetail("1")).thenReturn(
-            ResultOf.Error(Exception("error"))
+            ResultOf.Error(Exception())
         )
-        Mockito.`when`(resourcesProvider.getString(R.string.error_retrieving_pokemon_detail)).thenReturn("error")
+        Mockito.`when`(resourcesProvider.getString(R.string.error_retrieving_pokemon_detail)).thenReturn(expectedAnswer)
 
         val job = launch {
             viewModel.errorFlow.test {
                 val emission = awaitItem()
-                assertThat(emission).isEqualTo("error")
+                assertThat(emission).isEqualTo(expectedAnswer)
                 cancelAndConsumeRemainingEvents()
             }
         }
@@ -81,7 +83,7 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun getPokemonLocationsSuccessTest() = mainCoroutineRule.runBlockingTest {
+    fun getPokemonLocationsSuccessTest1() = mainCoroutineRule.runBlockingTest {
         Mockito.`when`(pokemonRepository.getPokemonLocations()).thenReturn(
             ResultOf.Success(
                 listOf(
@@ -97,15 +99,25 @@ class DetailViewModelTest {
 
         viewModel.getPokemonLocations(1)
         assertThat(viewModel.pokemonLocationsLiveData.value?.size).isEqualTo(1)
+    }
 
-        viewModel.getPokemonLocations(25)
-        assertThat(viewModel.pokemonLocationsLiveData.value?.size).isEqualTo(2)
+    @Test
+    fun getPokemonLocationsSuccessTest2() = mainCoroutineRule.runBlockingTest {
+        Mockito.`when`(pokemonRepository.getPokemonLocations()).thenReturn(
+            ResultOf.Success(
+                listOf(
+                    PokemonLocation(1, 37.394919, 127.111138),
+                    PokemonLocation(25, 37.350613, 127.173124),
+                    PokemonLocation(25, 37.401250, 127.173124),
+                    PokemonLocation(52, 37.401250, 127.110660),
+                    PokemonLocation(52, 37.388999, 127.117476),
+                    PokemonLocation(52, 37.388078, 127.121618)
+                )
+            )
+        )
 
         viewModel.getPokemonLocations(52)
         assertThat(viewModel.pokemonLocationsLiveData.value?.size).isEqualTo(3)
-
-        viewModel.getPokemonLocations(100)
-        assertThat(viewModel.pokemonLocationsLiveData.value?.size).isEqualTo(0)
     }
 
 

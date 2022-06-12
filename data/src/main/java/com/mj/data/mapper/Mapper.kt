@@ -7,7 +7,6 @@ import com.mj.domain.model.PokemonDetail
 import com.mj.domain.model.PokemonLocation
 import com.mj.domain.model.PokemonName
 
-//PokemonNameEntity -> PokemonName
 fun mapperToPokemonName(pokemonNameEntities: List<PokemonNameEntity>): List<PokemonName> {
     return pokemonNameEntities.toList().map {
         it.toPokemonName()
@@ -20,7 +19,6 @@ fun PokemonNameEntity.toPokemonName() = PokemonName(
     nameEnglish = names[1]
 )
 
-//PokemonLocationEntity -> PokemonLocation
 fun mapperToPokemonLocation(pokemonLocationEntities: List<PokemonLocationEntity>): List<PokemonLocation> {
     return pokemonLocationEntities.toList().map {
         it.toPokemonLocation()
@@ -33,7 +31,6 @@ fun PokemonLocationEntity.toPokemonLocation() = PokemonLocation(
     lng = lng
 )
 
-//PokemonDetailEntity -> PokemonDetail
 fun PokemonDetailEntity.toPokemonDetail(): PokemonDetail {
     var pokemonImage: String? = null
 

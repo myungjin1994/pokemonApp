@@ -27,6 +27,9 @@ class DetailViewModel @Inject constructor(
     private val _currentFragmentTag = MutableLiveData<String>(null)
     val currentFragmentTag: LiveData<String> = _currentFragmentTag
 
+    private val _pokemonDetailLoadingLiveData = MutableLiveData<Boolean>()
+    val pokemonDetailLoadingLiveData: LiveData<Boolean> = _pokemonDetailLoadingLiveData
+
     private val _pokemonDetailLiveData = MutableLiveData<PokemonDetail>()
     val pokemonDetailLiveData: LiveData<PokemonDetail> = _pokemonDetailLiveData
 
@@ -36,25 +39,34 @@ class DetailViewModel @Inject constructor(
     private val _errorFlow = MutableSharedFlow<String>()
     val errorFlow = _errorFlow.asSharedFlow()
 
-    // 현재 fragment 파악
+
     fun setCurrentFragment(tag: String) {
         _currentFragmentTag.value = tag
     }
 
     fun getPokemonDetail(id: Int) {
+        // 한번 검색 결과가 나왔으면 다시 검색하지 않는다
+        // if(_pokemonDetailLiveData.value != null) return
+
+        _pokemonDetailLoadingLiveData.value = true
         viewModelScope.launch {
             when (val result = getPokemonDetailUseCase(id)) {
                 is ResultOf.Success -> {
                     _pokemonDetailLiveData.value = result.data!!
+                    _pokemonDetailLoadingLiveData.value = false
                 }
                 is ResultOf.Error -> {
                     _errorFlow.emit(resourcesProvider.getString(R.string.error_retrieving_pokemon_detail))
+                    _pokemonDetailLoadingLiveData.value = false
                 }
             }
         }
     }
 
     fun getPokemonLocations(id: Int) {
+        // 한번 서식지 검색 결과가 나왔으면 다시 검색하지 않는다
+        // if(_pokemonLocationsLiveData.value != null) return
+
         viewModelScope.launch {
             when (val result = getPokemonLocationsUseCase(id)) {
                 is ResultOf.Success -> {
