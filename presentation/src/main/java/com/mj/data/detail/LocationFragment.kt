@@ -52,7 +52,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setGoogleMap() {
-        // ui test에서 GoogleMap 출력 대기 신호보내기
+        // ui test 에서 GoogleMap 출력 대기 신호보내기
         EspressoIdlingResource.increment()
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -90,7 +90,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         super.onAttach(context)
         val callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true) {
-                // 해당 fragment에서 뒤로가기 버튼 클릭시 detailFragment로 이동
+                // 해당 fragment 에서 뒤로가기 버튼 클릭시 detailFragment 로 이동
                 override fun handleOnBackPressed() {
                     viewModel.setCurrentFragment(DetailFragment.TAG)
                 }
@@ -108,7 +108,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        // ui test에서 GoogleMap 출력 완료 신호보내기
+        // ui test 에서 GoogleMap 출력 완료 신호보내기
         EspressoIdlingResource.decrement()
 
         mMap = googleMap

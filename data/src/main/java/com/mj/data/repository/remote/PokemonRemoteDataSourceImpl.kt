@@ -5,7 +5,6 @@ import com.mj.data.api.PokemonSearchApiService
 import com.mj.data.model.detail.PokemonDetailEntity
 import com.mj.data.model.search.PokemonLocationResponse
 import com.mj.data.model.search.PokemonNameResponse
-import com.mj.data.repository.remote.PokemonRemoteDataSource
 import retrofit2.Response
 import javax.inject.Inject
 

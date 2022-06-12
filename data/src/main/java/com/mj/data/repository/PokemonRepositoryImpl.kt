@@ -21,10 +21,10 @@ class PokemonRepositoryImpl @Inject constructor(
 
     override suspend fun getPokemonList(): ResultOf<List<PokemonName>> = withContext(dispatcherProvider.io) {
         return@withContext try {
-            // ui test에서 background 작업 대기 신호보내기
+            // ui test 에서 background 작업 대기 신호보내기
             EspressoIdlingResource.increment()
             val result = pokemonRemoteDataSource.getPokemonList()
-            // ui test에서 background 작업 완료 신호보내기
+            // ui test 에서 background 작업 완료 신호보내기
             EspressoIdlingResource.decrement()
 
             if (result.isSuccessful) {

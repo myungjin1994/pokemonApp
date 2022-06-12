@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mj.data.utils.EspressoIdlingResource
 import com.mj.pokemonapp.databinding.ViewholderPokemonNameBinding
 import com.mj.domain.model.PokemonName
 
@@ -29,7 +28,7 @@ class PokemonListAdapter(
     inner class PokemonViewHolder(private val binding: ViewholderPokemonNameBinding, clickAtPosition: (Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.constraintlayoutPokemon.setOnClickListener {
+            binding.constraintLayoutPokemon.setOnClickListener {
                 clickAtPosition(adapterPosition)
             }
         }
