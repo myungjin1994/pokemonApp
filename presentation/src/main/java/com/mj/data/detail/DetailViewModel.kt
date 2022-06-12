@@ -46,7 +46,7 @@ class DetailViewModel @Inject constructor(
 
     fun getPokemonDetail(id: Int) {
         // 한번 검색 결과가 나왔으면 다시 검색하지 않는다
-        if(_pokemonDetailLiveData.value != null) return
+        // if(_pokemonDetailLiveData.value != null) return
 
         _pokemonDetailLoadingLiveData.value = true
         viewModelScope.launch {
@@ -65,7 +65,7 @@ class DetailViewModel @Inject constructor(
 
     fun getPokemonLocations(id: Int) {
         // 한번 서식지 검색 결과가 나왔으면 다시 검색하지 않는다
-        if(_pokemonLocationsLiveData.value != null) return
+        // if(_pokemonLocationsLiveData.value != null) return
 
         viewModelScope.launch {
             when (val result = getPokemonLocationsUseCase(id)) {
