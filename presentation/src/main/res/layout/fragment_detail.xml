@@ -15,7 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context="com.mj.data.detail.DetailActivity">
+            tools:context="com.mj.presentation.detail.DetailActivity">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_start"
@@ -127,7 +127,7 @@
                 tools:text="10" />
 
 
-            <com.mj.data.detail.customview.PokemonLocationButton
+            <com.mj.presentation.detail.customview.PokemonLocationButton
                 android:id="@+id/button_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

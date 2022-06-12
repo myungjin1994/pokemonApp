@@ -4,7 +4,7 @@ import com.mj.data.mapper.mapperToPokemonLocation
 import com.mj.data.mapper.mapperToPokemonName
 import com.mj.data.mapper.toPokemonDetail
 import com.mj.data.repository.remote.PokemonRemoteDataSource
-import com.mj.data.utils.EspressoIdlingResource
+import com.mj.presentation.utils.EspressoIdlingResource
 import com.mj.data.utils.dispatcherprovider.DispatcherProvider
 import com.mj.domain.model.PokemonDetail
 import com.mj.domain.model.PokemonLocation
